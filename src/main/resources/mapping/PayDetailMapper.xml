@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goodsproject.mapper.PayDetailMapper">
+  <resultMap id="BaseResultMap" type="com.goodsproject.model.PayDetail">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="return_url" jdbcType="VARCHAR" property="returnUrl" />
+    <result column="source" jdbcType="INTEGER" property="source" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, order_id, description, type, ip, status, money, return_url, source, user_id, 
+    out_trade_no
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pay_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from pay_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.goodsproject.model.PayDetail">
+    insert into pay_detail (id, order_id, description, 
+      type, ip, status, money, 
+      return_url, source, user_id, 
+      out_trade_no)
+    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{money,jdbcType=DECIMAL}, 
+      #{returnUrl,jdbcType=VARCHAR}, #{source,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{outTradeNo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.goodsproject.model.PayDetail">
+    insert into pay_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="returnUrl != null">
+        return_url,
+      </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="returnUrl != null">
+        #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.goodsproject.model.PayDetail">
+    update pay_detail
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DECIMAL},
+      </if>
+      <if test="returnUrl != null">
+        return_url = #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null">
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.goodsproject.model.PayDetail">
+    update pay_detail
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      money = #{money,jdbcType=DECIMAL},
+      return_url = #{returnUrl,jdbcType=VARCHAR},
+      source = #{source,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,54 +1,64 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false">
-    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <property name="LOG_HOME" value="/log/"/>
-    <!-- 控制台输出 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!--控制台输出日志-->
+    <appender name="conlsoleLog" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--打印日志的格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </layout>
+    </appender>
+    <!--info日志配制-->
+    <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--过滤掉error级别日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--如果是error就不執行appender的配置，不是就执行info信息保存到本地-->
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
         </encoder>
+        <!--滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名  根目录logs/info.xxx.log-->
+            <FileNamePattern>./logs/info/%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
     </appender>
-    <!-- 按照每天生成日志文件 -->
-    <appender name="info"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--error日志配置-->
+    <appender name="fileErrorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--过滤只输出error级别日志-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+        <!--滚动策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_HOME}/log.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <!--日志文件保留天数-->
-            <MaxHistory>30</MaxHistory>
+            <FileNamePattern>./logs/error/%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
-        </encoder>
-        <!--日志文件最大的大小-->
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
     </appender>
 
-    <!--myibatis log configure-->
-    <logger name="com.apache.ibatis" level="TRACE"/>
-    <logger name="java.sql.Connection" level="DEBUG"/>
-    <logger name="java.sql.Statement" level="DEBUG"/>
-    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <!-- 输出到sql.log文件 -->
+    <appender name="fileSqlLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>SQL</level>
+        </filter>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./logs/sql/%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
 
-    <!-- 日志输出级别 -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="info" />
+    <!--引用上面的 appender-->
+    <root level="info">
+        <appender-ref ref="conlsoleLog" />
+        <appender-ref ref="fileInfoLog" />
+        <appender-ref ref="fileErrorLog" />
+        <appender-ref ref="fileSqlLog"/>
     </root>
-    <!--日志异步到数据库 -->
-    <!--<appender name="DB" class="ch.qos.logback.classic.db.DBAppender">-->
-    <!--&lt;!&ndash;日志异步到数据库 &ndash;&gt;-->
-    <!--<connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">-->
-    <!--&lt;!&ndash;连接池 &ndash;&gt;-->
-    <!--<dataSource class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
-    <!--<driverClass>com.mysql.jdbc.Driver</driverClass>-->
-    <!--<url>jdbc:mysql://127.0.0.1:3306/databaseName</url>-->
-    <!--<user>root</user>-->
-    <!--<password>root</password>-->
-    <!--</dataSource>-->
-    <!--</connectionSource>-->
-    <!--</appender>-->
 </configuration>
