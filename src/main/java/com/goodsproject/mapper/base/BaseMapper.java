@@ -1,6 +1,5 @@
 package com.goodsproject.mapper.base;
 
-import com.goodsproject.model.User;
 
 public interface BaseMapper<T> {
 
@@ -10,7 +9,7 @@ public interface BaseMapper<T> {
 
     int insertSelective(T var);
 
-    User selectByPrimaryKey(T var);
+    T selectByPrimaryKey(T var);
 
     int updateByPrimaryKeySelective(T var);
 

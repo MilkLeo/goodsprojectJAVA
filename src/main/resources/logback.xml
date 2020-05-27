@@ -41,6 +41,12 @@
         </rollingPolicy>
     </appender>
 
+    <!--打印SQL-->
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.Statement" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+    <logger name="com.apache.ibatis" level="DEBUG"/>
+    <logger name="com.goodsproject.mapper" level="DEBUG"/>
     <!-- 输出到sql.log文件 -->
     <appender name="fileSqlLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
@@ -59,6 +65,6 @@
         <appender-ref ref="conlsoleLog" />
         <appender-ref ref="fileInfoLog" />
         <appender-ref ref="fileErrorLog" />
-        <appender-ref ref="fileSqlLog"/>
+        <appender-ref ref="fileSqlLog" />
     </root>
 </configuration>
